@@ -1,18 +1,6 @@
 #include common_scripts\utility;
 #include maps\mp\_utility;
-// #include maps\mp\_visionset_mgr;
-// #include maps\mp\gametypes_zm\_globallogic_score;
-#include maps\mp\zm_buried_sq.gsc;
-// #include maps\mp\zombies\_zm_audio;
-// #include maps\mp\zombies\_zm_buildables;
-// #include maps\mp\zombies\_zm_perks;
-// #include maps\mp\zombies\_zm_powerups;
-// #include maps\mp\zombies\_zm_score;
-// #include maps\mp\zombies\_zm_sidequests;
-// #include maps\mp\zombies\_zm_spawner;
-// #include maps\mp\zombies\_zm_stats;
-// #include maps\mp\zombies\_zm_unitrigger;
-// #include maps\mp\zombies\_zm_utility;
+#include maps\mp\zm_buried_sq;
 
 main()
 {
@@ -38,13 +26,13 @@ onPlayerSpawned()
 	level endon( "end_game" );
 	self endon( "disconnect" );
 
-	self.initial_spawn = 1;
+	initial_spawn = 1;
 	for(;;)
 	{
 		self waittill( "spawned_player" );
-		if ( self.initial_spawn )
+		if ( initial_spawn )
 		{
-			self.initial_spawn = 0;
+			initial_spawn = 0;
 			self iPrintLn( "^2Any Player EE Mod ^5Super Easter Egg" );
 		}
 	}
@@ -96,6 +84,8 @@ custom_sq_metagame()
 	sq_metagame_clear_lights();
 	players = get_players();
 	player_count = players.size;
+	if ( player_count > 4 ) //in case of more than 4 players, only checks the progress of 4 players
+		player_count = 4;
 
 	for ( n_player = 0; n_player < player_count; n_player++ )
 	{
@@ -126,7 +116,7 @@ custom_sq_metagame()
 		}
 	}
 
-	if ( level.n_metagame_machine_lights_on == player_count * 3 )
+	if ( level.n_metagame_machine_lights_on == player_count * 3 ) //changed to adapt to the number of players
 	{
 		if ( is_blue_on && is_orange_on )
 			return;
